@@ -1,48 +1,72 @@
-Overview
-========
+# OMS Pipeline Project[ELT]
 
-Welcome to Astronomer! This project was generated after you ran 'astro dev init' using the Astronomer CLI. This readme describes the contents of the project, as well as how to run Apache Airflow on your local machine.
+## Overview
+This project involves the design and implementation of an ELT (Extract, Load, Transform) pipeline to handle data orchestration, transformation, storage, and visualization. The solution leverages modern data engineering tools to ensure scalability, reliability, and efficiency.
 
-Project Contents
-================
+## Features
+- **Data Orchestration**: Apache Airflow is used to automate and schedule pipeline workflows.
+- **Data Transformation**: DBT (Data Build Tool) handles modular, maintainable SQL transformations.
+- **Data Storage**: AWS S3 serves as the data storage layer, with Snowflake as the data warehouse.
+- **Data Visualization**: Insights are visualized using Metabase.
+- **Notifications**: Automated email alerts provide real-time updates on pipeline status.
+- **Scalability**: The pipeline is containerized using Docker and published on Docker Hub for easy deployment.
 
-Your Astro project contains the following files and folders:
+## Architecture
+1. **Orchestration**: Airflow DAGs manage the workflow, including data extraction, loading, and transformation steps.
+2. **Transformation**: DBT models transform raw data into analytics-ready datasets in Snowflake.
+3. **Storage**: Data is stored on AWS S3 before being ingested into Snowflake.
+4. **Visualization**: Metabase connects to Snowflake for interactive dashboards and insights.
+5. **Notifications**: Email notifications inform stakeholders of pipeline status and any issues.
 
-- dags: This folder contains the Python files for your Airflow DAGs. By default, this directory includes one example DAG:
-    - `example_astronauts`: This DAG shows a simple ETL pipeline example that queries the list of astronauts currently in space from the Open Notify API and prints a statement for each astronaut. The DAG uses the TaskFlow API to define tasks in Python, and dynamic task mapping to dynamically print a statement for each astronaut. For more on how this DAG works, see our [Getting started tutorial](https://www.astronomer.io/docs/learn/get-started-with-airflow).
-- Dockerfile: This file contains a versioned Astro Runtime Docker image that provides a differentiated Airflow experience. If you want to execute other commands or overrides at runtime, specify them here.
-- include: This folder contains any additional files that you want to include as part of your project. It is empty by default.
-- packages.txt: Install OS-level packages needed for your project by adding them to this file. It is empty by default.
-- requirements.txt: Install Python packages needed for your project by adding them to this file. It is empty by default.
-- plugins: Add custom or community plugins for your project to this file. It is empty by default.
-- airflow_settings.yaml: Use this local-only file to specify Airflow Connections, Variables, and Pools instead of entering them in the Airflow UI as you develop DAGs in this project.
+## Tech Stack
+- **Orchestration**: Apache Airflow
+- **Data Transformation**: DBT
+- **Data Storage**: AWS S3, Snowflake
+- **Visualization**: Metabase
+- **Programming**: Python
+- **Containerization**: Docker
+- **Infrastructure**: AWS EC2
 
-Deploy Your Project Locally
-===========================
+## Installation
+### Prerequisites
+- Docker and Docker Compose installed.
+- AWS account with S3 and EC2 setup.
+- Snowflake account and warehouse configured.
+- Metabase instance (hosted or self-hosted).
 
-1. Start Airflow on your local machine by running 'astro dev start'.
+### Steps
+1. Clone the repository:
+   ```bash
+   git clone <repository_url>
+   cd <repository_name>
+   ```
+2. Build and run the Docker container:
+   ```bash
+   docker-compose up --build
+   ```
+3. Configure Airflow connections for AWS, Snowflake, and Metabase.
+4. Deploy DBT models:
+   ```bash
+   dbt run
+   ```
+5. Access the pipeline:
+   - Airflow: `http://localhost:8080`
+   - Metabase: `http://localhost:3000`
 
-This command will spin up 4 Docker containers on your machine, each for a different Airflow component:
+## Usage
+1. Define the data sources and transformations in Airflow and DBT.
+2. Trigger the Airflow DAG to execute the pipeline.
+3. Monitor the status through Airflow and receive email notifications.
+4. View visualized insights in Metabase.
 
-- Postgres: Airflow's Metadata Database
-- Webserver: The Airflow component responsible for rendering the Airflow UI
-- Scheduler: The Airflow component responsible for monitoring and triggering tasks
-- Triggerer: The Airflow component responsible for triggering deferred tasks
+## Deployment
+- The Docker image is published on Docker Hub for scalability.
+- AWS EC2 is used for hosting the Airflow and Metabase services.
 
-2. Verify that all 4 Docker containers were created by running 'docker ps'.
+## Future Improvements
+- Add support for multiple data sources.
+- Implement Slack notifications for better team collaboration.
+- Optimize DBT models for improved performance.
 
-Note: Running 'astro dev start' will start your project with the Airflow Webserver exposed at port 8080 and Postgres exposed at port 5432. If you already have either of those ports allocated, you can either [stop your existing Docker containers or change the port](https://www.astronomer.io/docs/astro/cli/troubleshoot-locally#ports-are-not-available-for-my-local-airflow-webserver).
-
-3. Access the Airflow UI for your local Airflow project. To do so, go to http://localhost:8080/ and log in with 'admin' for both your Username and Password.
-
-You should also be able to access your Postgres Database at 'localhost:5432/postgres'.
-
-Deploy Your Project to Astronomer
-=================================
-
-If you have an Astronomer account, pushing code to a Deployment on Astronomer is simple. For deploying instructions, refer to Astronomer documentation: https://www.astronomer.io/docs/astro/deploy-code/
-
-Contact
-=======
-
-The Astronomer CLI is maintained with love by the Astronomer team. To report a bug or suggest a change, reach out to our support.
+## License
+This project is licensed under the MIT License. See the LICENSE file for details.
