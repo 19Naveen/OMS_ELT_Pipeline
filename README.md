@@ -38,7 +38,7 @@ graph TD
 * **Data Transformation**: DBT (with incremental models)
 * **Data Storage**:
   * Raw Data: AWS S3 (partitioned by date)
-  * Processed Data: Snowflake (transient tables for staging)
+  * Processed Data: Snowflake
 * **Visualization**: Metabase
 * **Programming**: Python (for Airflow tasks)
 * **Containerization**: Docker
@@ -55,8 +55,8 @@ graph TD
 ### Setup Steps
 1. Clone the repository:
 ```bash
-git clone <repository_url>
-cd <repository_name>
+git clone https://github.com/19Naveen/OMS_ELT_Pipeline.git
+cd OMS_ELT_Pipeline
 ```
 
 2. Build and run the Docker container:
@@ -64,7 +64,7 @@ cd <repository_name>
 docker-compose up --build
 ```
 
-3. Configure Airflow connections:
+3. Configure connections:
    * AWS S3
    * Snowflake
    * Metabase
@@ -81,7 +81,7 @@ docker-compose up --build
 * Extract raw data from the source system
 * Store in S3 with date-based partitioning:
 ```bash
-s3://your-bucket/raw/year=YYYY/month=MM/day=DD/
+s3://data_upload_19/YYYY/month/day/
 ```
 
 #### 2. Data Loading
